@@ -16,10 +16,17 @@ using namespace std;
 bool uniqueSubstring (string str);
 int longestUniqueString (string str);
 
-int main() {
-	string str = "pwwkew";
+int main(int argc, char **argv) {
 
-	cout << longestUniqueString(str);
+	if (argc <= 1) {
+		cout << "Usage: \nchal01 <string>" << endl;
+		return 0;
+	} else {
+		string str = argv[1];
+
+		cout << longestUniqueString(str) << endl;
+	}
+
 
 	return 0;
 }
