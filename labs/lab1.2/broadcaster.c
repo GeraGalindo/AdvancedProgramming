@@ -48,5 +48,10 @@ int main(int argc, char *argv[]){
       printf("Couldn't write whole buffer\n");
     }
   }
+
+  if (close(iFd) == -1)
+      printf("Error while closing the input file");
+  if (close(oFd) == -1)
+      printf("Error while closing /dev/tty");
   return 0;
 }
