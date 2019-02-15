@@ -1,0 +1,98 @@
+diff --git a/challenges/chal2/dmesg-analyzer.c b/challenges/chal2/dmesg-analyzer.c
+index aaa0e93..dd089e8 100644
+--- a/challenges/chal2/dmesg-analyzer.c
++++ b/challenges/chal2/dmesg-analyzer.c
+@@ -1,14 +1,17 @@
+ #include <stdio.h>
++#include <sys/stat.h>
++#include <fcntl.h>
+ 
+ #define REPORT_FILE "report.txt"
++#define BUF_SIZE 256
+ 
+ void analizeLog(char *logFile, char *report);
+ 
+ int main(int argc, char **argv) {
+ 
+     if (argc < 2) {
+-	printf("Usage:./dmesg-analizer.o logfile.txt\n");
+-	return 1;
++    	printf("Usage:./dmesg-analizer.o logfile.txt\n");
++    	return 1;
+     }
+ 
+     analizeLog(argv[1], REPORT_FILE);
+@@ -20,6 +23,73 @@ void analizeLog(char *logFile, char *report) {
+     printf("Generating Report from: [%s] log file\n", logFile);
+ 
+     // Implement your solution here.
++    int inputFd, outputFd, openFlags;
++    mode_t filePerms;
++    ssize_t numRead;
++    char buf[BUF_SIZE];
++
++    // setting up input file
++    inputFd = open(logFile, O_RDONLY);
++    if (inputFd == -1){
++      printf("Error while opening the file %s\n", logFile);
++    }
++
++    // init file permissions
++    openFlags = O_CREAT | O_WRONLY | O_TRUNC;
++    filePerms = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
++
++    // setting up output file
++    outputFd = open(report, openFlags, filePerms);
++    if (outputFd == -1){
++      printf("Error while oppening %s\n", report);
++    }
++
++    if (strcmp(logFile, "dmesg.txt")){
++      // offset will be the kind of -> "Feb 12 00:07:19 " or /var/log/syslog or /var/log/auth.log
++      printf("Not focusing on analyzing /var/log/syslog or /var/log/auth.log\n");
++
++      // while((numRead = read(inputFd, buf, BUF_SIZE)) > 0){
++      //   // To find the length of each line from the log
++      //   int count = 0;
++      //   while (buf[count] != '\n'){
++      //     count++;
++      //   }
++      //   write(outputFd, buf, count);
++      //   write(outputFd, '\n', 1); // add a new line
++      // }
++
++    } else {
++      // offset will be of the kind -> "[    0.000000] " offset = 15
++      char logType[50];
++      printf("Analyzing dmesg.txt\n");
++      while((numRead = read(inputFd, buf, BUF_SIZE)) > 0){
++        int idx = 10;
++        int start = 0;
++        int end = 0;
++        while (buf[idx] != '\n'){
++          if (buf[idx] != ']'){
++            start = idx;
++          }
++          if (buf[idx] == ':' && start !=0) {
++            end = idx;
++          }
++
++        }
++
++        // capture the <log-type>
++        for (int i = 0; i < end-start; ++i){
++          logType[i] = buf[start+i];
++        }
++        logType[end-start] = '\n';
++        printf("log type = %s\n", logType);
++        break;
++      }
++    }
+ 
+     printf("Report is generated at: [%s]\n", report);
++
++    if (close(inputFd) == -1)
++        printf("Error while closing the input file");
++    if (close(outputFd) == -1)
++        printf("Error while closing /dev/tty");
+ }
