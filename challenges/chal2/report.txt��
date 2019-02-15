@@ -1,9 +1,0 @@
-[    0.000000] random: get_random_bytes called from start_kernel+0x99/0x4fd with crng_init=0
-[    2.488310] random: fast init done
-[    2.493381] random: systemd-udevd: uninitialized urandom read (16 bytes read)
-[    2.494190] random: systemd-udevd: uninitialized urandom read (16 bytes read)
-[    2.494201] random: systemd-udevd: uninitialized urandom read (16 bytes read)
-[    4.549376] random: crng init done
-[    4.549379] random: 7 urandom warning(s) missed due to ratelimiting
-[    0.000000] setup_percpu: NR_CPUS:8192 nr_cpumask_bits:2 nr_cpu_ids:2 nr_node_ids:1
-[    0.000000] percpu: Embedded 46 pages/cpu @        (ptrval) s151552 r8192 d28672 u1048576
