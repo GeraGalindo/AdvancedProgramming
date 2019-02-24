@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+go build clock2.go
+
+go build client/clockWall.go
+
