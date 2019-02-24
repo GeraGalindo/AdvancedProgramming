@@ -4,6 +4,8 @@
 # TO RUN THE CLOCK WALL
 ./clockWall n
 
+-------------------------------------
+
 Where n is
 
 n = 1 -> New York
