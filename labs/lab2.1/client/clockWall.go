@@ -6,7 +6,6 @@ import (
 	"net"
 	"os"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -22,11 +21,12 @@ func printUsage() {
 	fmt.Println("Usage: ./clockWall NewYork=localhost:8010 Tokyo=192.168.2.1:8020")
 }
 
-func shiftMsg(delay time.Duration, msg string) {
+func shiftMsg(delay time.Duration, msg string, ch chan int) {
 	for _, r := range msg {
 		fmt.Printf("%c", r)
 		time.Sleep(delay)
 	}
+	ch <- 1
 }
 
 func getHostAndPort(tz string) string {
@@ -34,7 +34,7 @@ func getHostAndPort(tz string) string {
 }
 
 func main() {
-	var wg sync.WaitGroup
+	//var wg sync.WaitGroup
 
 	if len(os.Args) < 2 {
 		printUsage()
@@ -44,21 +44,24 @@ func main() {
 	for i := range os.Args {
 		if i != 0 {
 			hostAndPort := getHostAndPort(os.Args[i])
-			wg.Add(1)
-			go func() {
+			//wg.Add(1)
+			ch := make(chan int)
+			go func(ch chan int) {
 				conn, err := net.Dial("tcp", hostAndPort)
 				printError(err)
-				//defer conn.Close()
-				//for {
+				defer conn.Close()
+
 				message, _ := bufio.NewReader(conn).ReadString('\n')
-				//shiftMsg(100*time.Millisecond, message)
-				fmt.Print(message)
-				wg.Done()
-				//}
-			}()
+
+				shiftMsg(100*time.Millisecond, message, ch)
+
+				//fmt.Print(message)
+				//wg.Done()
+			}(ch)
+			<-ch
 		}
 
 	}
-	wg.Wait()
+	//wg.Wait()
 
 }
