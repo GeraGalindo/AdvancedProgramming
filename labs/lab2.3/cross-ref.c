@@ -1,93 +1,427 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
+#include <ctype.h>
 
-#define MAXWORD 100
+char *dupstr(char *s)
+{
+  char *p = NULL;
 
-struct tnode {
-  char *word;
-  int count;
-  struct tnode *left;
-  struct tnode *right;
+  if(s != NULL)
+  {
+    p = malloc(strlen(s) + 1);
+    if(p)
+    {
+      strcpy(p, s);
+    }
+  }
+
+  return p;
+}
+
+/* case-insensitive string comparison */
+int strcmpIgnoreCase(const char *s, const char *t)
+{
+  int diff = 0;
+  char cs = 0;
+  char ct = 0;
+
+  while(diff == 0 && *s != '\0' && *t != '\0')
+  {
+    cs = tolower((unsigned char)*s);
+    ct = tolower((unsigned char)*t);
+    if(cs < ct)
+    {
+      diff = -1;
+    }
+    else if(cs > ct)
+    {
+      diff = 1;
+    }
+    ++s;
+    ++t;
+  }
+
+  if(diff == 0 && *s != *t)
+  {
+    if(*s == '\0')
+    {
+      diff = -1;
+    }
+    else
+    {
+      diff = 1;
+    }
+  }
+
+  return diff;
+}
+
+
+struct linelist
+{
+  struct linelist *next;
+  int line;
 };
 
-int getword(char *word, int lim){
-  int c, getch(void);
-  void ungetch(int);
-  char *w = word;
+struct wordtree
+{
+  char *word;
+  struct linelist *firstline;
+  struct wordtree *left;
+  struct wordtree *right;
+};
 
-  while(isspace(c = getch()));
+void printlist(struct linelist *list)
+{
+  if(list != NULL)
+  {
+    printlist(list->next);
+    printf("%6d ", list->line);
+  }
+}
 
-  if (c !=  EOF){
-    *w++ = c;
+void printtree(struct wordtree *node)
+{
+  if(node != NULL)
+  {
+    printtree(node->left);
+    printf("%18s  ", node->word);
+    printlist(node->firstline);
+    printf("\n");
+    printtree(node->right);
   }
-  if(!isalpha(c)){
-    *w = '\0';
-    return c;
+}
+
+struct linelist *addlink(int line)
+{
+  struct linelist *new = malloc(sizeof *new);
+  if(new != NULL)
+  {
+    new->line = line;
+    new->next = NULL;
   }
-  for ( ; --lim > 0; w++){
-    if (!isalnum(*w = getch())) {
-      ungetch(*w);
-      break;
+
+  return new;
+}
+
+void deletelist(struct linelist *listnode)
+{
+  if(listnode != NULL)
+  {
+    deletelist(listnode->next);
+    free(listnode);
+  }
+}
+
+void deleteword(struct wordtree **node)
+{
+  struct wordtree *temp = NULL;
+  if(node != NULL)
+  {
+    if(*node != '\0')
+    {
+      if((*node)->right != NULL)
+      {
+        temp = *node;
+        deleteword(&temp->right);
+      }
+      if((*node)->left != NULL)
+      {
+        temp = *node;
+        deleteword(&temp->left);
+      }
+      if((*node)->word != NULL)
+      {
+        free((*node)->word);
+      }
+      if((*node)->firstline != NULL)
+      {
+        deletelist((*node)->firstline);
+      }
+      free(*node);
+      *node = NULL;
+    }
+  }
+}
+
+struct wordtree *addword(struct wordtree **node, char *word, int line)
+{
+  struct wordtree *wordloc = NULL;
+  struct linelist *newline = NULL;
+  struct wordtree *temp = NULL;
+  int diff = 0;
+
+  if(node != NULL && word != NULL)
+  {
+    if(NULL == *node)
+    {
+      *node = malloc(sizeof **node);
+      if(NULL != *node)
+      {
+        (*node)->left = NULL;
+        (*node)->right = NULL;
+        (*node)->word = dupstr(word);
+        if((*node)->word != NULL)
+        {
+          (*node)->firstline = addlink(line);
+          if((*node)->firstline != NULL)
+          {
+            wordloc = *node;
+          }
+        }
+      }
+    }
+    else
+    {
+      diff = strcmpIgnoreCase((*node)->word, word);
+      if(0 == diff)
+      {
+        newline = addlink(line);
+        if(newline != NULL)
+        {
+          wordloc = *node;
+          newline->next = (*node)->firstline;
+          (*node)->firstline = newline;
+        }
+      }
+      else if(0 < diff)
+      {
+        temp = *node;
+        wordloc = addword(&temp->left, word, line);
+      }
+      else
+      {
+        temp = *node;
+        wordloc = addword(&temp->right, word, line);
+      }
     }
   }
 
-  *w = '\0';
-  return word[0];
-}
-
-char *str_dup(char *s){
-  char *p;
-
-  p = (char *) malloc (strlen(s)+1);
-  if (p != NULL){
-    strcpy(p, s);
-  }
-  return p;
-}
-
-struct tnode *talloc (void){
-  return (struct tnode *) malloc(sizeof(struct tnode));
-}
-
-void treePrint(struct tnode *p){
-  if (p != NULL){
-    treePrint(p->left);
-    printf("%4d %s\n", p->count, p->word);
-    treePrint(p->right);
-  }
-}
-
-struct tnode *addtree(struct tnode *p, char *w){
-  int cond;
-
-  if (p == NULL) {
-    p = talloc();
-    p->word = str_dup(w);
-    p->count = 1;
-    p->left = p->right = NULL;
-  } else if ((cond = strcmp(w, p->word)) == 0){
-    p->count++; // repeated word
-  } else if (cond < 0){
-    p->left = addtree(p->left, w);
-  } else {
-    p->right = addtree(p->right, w);
+  if(wordloc == NULL)
+  {
+    deleteword(node);
   }
 
-  return p;
+  return wordloc;
 }
 
-int main(){
-  struct tnode *root;
-  char word[MAXWORD];
+char *char_in_string(char *s, int c)
+{
+  char *p = NULL;
 
-  root = NULL;
-  while (getword(word, MAXWORD) != EOF){
-    if (isalpha(word[0])){
-      root = addtree(root, word);
+  /* if there's no data, we'll stop */
+  if(s != NULL)
+  {
+    if(c != '\0')
+    {
+      while(*s != '\0' && *s != c)
+      {
+        ++s;
+      }
+      if(*s == c)
+      {
+        p = s;
+      }
     }
   }
-  treePrint(root);
+
+  return p;
+}
+
+char *trimWord(char **s, char *delims)
+{
+  char *p = NULL;
+  char *q = NULL;
+
+  if(s != NULL && *s != '\0' && delims != NULL)
+  {
+    /* pass over leading delimiters */
+    while(NULL != char_in_string(delims, **s))
+    {
+      ++*s;
+    }
+    if(**s != '\0')
+    {
+      q = *s + 1;
+      p = *s;
+      while(*q != '\0' && NULL == char_in_string(delims, *q))
+      {
+        ++q;
+      }
+
+      *s = q + (*q != '\0');
+      *q = '\0';
+    }
+  }
+
+  return p;
+}
+
+int isNoiseWord(char *s)
+{
+  int found = 0;
+  int giveup = 0;
+
+  char *list[] =
+  {
+    "a",
+    "about",
+    "against",
+    "an",
+    "and",
+    "among",
+    "at",
+    "be",
+    "but",
+    "by",
+    "during",
+    "for",
+    "from",
+    "he",
+    "her",
+    "his",
+    "I",
+    "in",
+    "including",
+    "into",
+    "is",
+    "it",
+    "its",
+    "of",
+    "off",
+    "on",
+    "our",
+    "she",
+    "so",
+    "such",
+    "that",
+    "the",
+    "their",
+    "these",
+    "they",
+    "this",
+    "those",
+    "to",
+    "until",
+    "up",
+    "was",
+    "which",
+    "with",
+    "you",
+    "your",
+    "yours"
+  };
+  int top = sizeof list / sizeof list[0] - 1;
+
+  int bottom = 0;
+
+  int guess = top / 2;
+
+  int diff = 0;
+
+  if(s != NULL)
+  {
+    while(!found && !giveup)
+    {
+      diff = strcmpIgnoreCase(list[guess], s);
+      if(0 == diff)
+      {
+        found = 1;
+      }
+      else if(0 < diff)
+      {
+        top = guess - 1;
+      }
+      else
+      {
+        bottom = guess + 1;
+      }
+      if(top < bottom)
+      {
+        giveup = 1;
+      }
+      else
+      {
+        guess = (top + bottom) / 2;
+      }
+    }
+  }
+
+  return found;
+}
+
+char *getLine(char *s, int n, FILE *fp)
+{
+  int c = 0;
+  int done = 0;
+  char *p = s;
+
+  while(!done && --n > 0 && (c = getc(fp)) != EOF)
+  {
+    if((*p++ = c) == '\n')
+    {
+      done = 1;
+    }
+  }
+
+  *p = '\0';
+
+  if(EOF == c && p == s)
+  {
+    p = NULL;
+  }
+  else
+  {
+    p = s;
+  }
+
+  return p;
+}
+
+#define MAXLINE 8192
+
+int main(int argc, char *argv[])
+{
+  static char buffer[MAXLINE] = {0};
+  char *s = NULL;
+  char *word = NULL;
+  int line = 0;
+  int giveup = 0;
+  struct wordtree *tree = NULL;
+  FILE *fp;
+
+  if ((fp = fopen(argv[1], "r")) == NULL) {
+    fprintf(stderr, "can′t open %s\n", argv[1]);
+    return 1;
+  }
+
+  char *delims = " \t\n\r\a\f\v!\"%^&*()_=+{}[]\\|/,.<>:;#~?";
+
+  while(!giveup && getLine(buffer, sizeof buffer, fp) != NULL)
+  {
+    ++line;
+    s = buffer;
+    while(!giveup && (word = trimWord(&s, delims)) != NULL)
+    {
+      if(!isNoiseWord(word))
+      {
+        if(NULL == addword(&tree, word, line))
+        {
+          printf("Error adding data into memory. Giving up.\n");
+          giveup = 1;
+        }
+      }
+    }
+  }
+
+  if(!giveup)
+  {
+    printf("%18s  Line Numbers\n", "Word");
+    printtree(tree);
+  }
+
+  deleteword(&tree);
+
   return 0;
 }
