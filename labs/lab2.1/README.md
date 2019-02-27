@@ -10,4 +10,4 @@ TZ=Europe/London ./clock2 -port 8030 &
 
 
 # TO RUN THE CLOCK WALL
-./clockWall.go NewYork=localhost:8010 Tokyo=localhost:8020 London=localhost:8030
+./clockWall NewYork=localhost:8010 Tokyo=localhost:8020 London=localhost:8030

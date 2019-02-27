@@ -34,7 +34,6 @@ func getHostAndPort(tz string) string {
 }
 
 func main() {
-	//var wg sync.WaitGroup
 
 	if len(os.Args) < 2 {
 		printUsage()
@@ -44,7 +43,7 @@ func main() {
 	for i := range os.Args {
 		if i != 0 {
 			hostAndPort := getHostAndPort(os.Args[i])
-			//wg.Add(1)
+
 			ch := make(chan int)
 			go func(ch chan int) {
 				conn, err := net.Dial("tcp", hostAndPort)
@@ -55,13 +54,10 @@ func main() {
 
 				shiftMsg(100*time.Millisecond, message, ch)
 
-				//fmt.Print(message)
-				//wg.Done()
 			}(ch)
 			<-ch
 		}
 
 	}
-	//wg.Wait()
 
 }
