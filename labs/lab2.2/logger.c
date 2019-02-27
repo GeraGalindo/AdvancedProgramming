@@ -198,4 +198,5 @@ int panicf(const char *format, ...){
   }
 
   printTrace();
+  exit(1);
 }

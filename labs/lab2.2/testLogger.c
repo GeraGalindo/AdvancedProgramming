@@ -10,4 +10,5 @@ int main(){
   warnf("%d\t%s\t%f\n",1 , "warining", 2.0);
   errorf("%d\t%s\t%f\n",1 , "error", 3.0);
   panicf("%d\t%s\t%f\n",1 , "panic", 4.0);
+  printf("Statement not reached since panic call\n");
 }
