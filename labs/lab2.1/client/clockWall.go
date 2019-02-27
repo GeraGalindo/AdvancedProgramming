@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -33,8 +34,7 @@ func getHostAndPort(tz string) string {
 }
 
 func main() {
-	nArgs := len(os.Args) - 1
-	done := make(chan int, nArgs)
+	var wg sync.WaitGroup
 
 	if len(os.Args) < 2 {
 		printUsage()
@@ -44,6 +44,7 @@ func main() {
 	for i := range os.Args {
 		if i != 0 {
 			hostAndPort := getHostAndPort(os.Args[i])
+			wg.Add(1)
 			go func() {
 				conn, err := net.Dial("tcp", hostAndPort)
 				printError(err)
@@ -52,15 +53,12 @@ func main() {
 				message, _ := bufio.NewReader(conn).ReadString('\n')
 				//shiftMsg(100*time.Millisecond, message)
 				fmt.Print(message)
-
+				wg.Done()
 				//}
 			}()
-			done <- i
 		}
 
 	}
+	wg.Wait()
 
-	for _ = range os.Args {
-		<-done
-	}
 }
