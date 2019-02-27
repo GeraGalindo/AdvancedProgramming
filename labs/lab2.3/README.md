@@ -21,3 +21,11 @@ Your program will be tested with the following txt-based books.
 
 - [irving-little-573.txt](./irving-little-573.txt)
 - [irving-london-598.txt](./irving-london-598.txt)
+
+Building instructions
+---------------------
+make
+
+Running instructions
+--------------------
+./output <text_file.txt>
