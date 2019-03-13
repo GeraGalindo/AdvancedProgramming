@@ -54,7 +54,16 @@ int infof(const char *format, ...){
   va_start(argPtr, format);
 
 	if(currentLogType == SYSLOG){
-		syslog(LOG_USER | LOG_INFO, "INFO: ");
+		char msg[50];
+		int idx = 0;
+		p = format;
+		while(*p != '%'){
+			msg[idx] = *p;
+			p++;
+			idx++;
+		}
+		msg[idx] = '\n';
+		syslog(LOG_USER | LOG_INFO, "INFO: %s", msg);
 	} else {
 		textcolor(BRIGHT, GREEN, BLACK);
 	  printf("INFO: ");
@@ -63,9 +72,7 @@ int infof(const char *format, ...){
 
   for(p = format; *p; p++){
     if(*p != '%'){
-			if(currentLogType == SYSLOG){
-				syslog(LOG_USER | LOG_INFO, "%c", *p);
-			} else {
+			if(currentLogType != SYSLOG){
 				putchar(*p);
 			}
       continue;
@@ -116,36 +123,61 @@ int warnf(const char *format, ...){
   va_start(argPtr, format);
 
 	if(currentLogType == SYSLOG){
-		syslog(LOG_USER | LOG_WARNING, "WARN: ");
+		char msg[50];
+		int idx = 0;
+		p = format;
+		while(*p != '%'){
+			msg[idx] = *p;
+			p++;
+			idx++;
+		}
+		msg[idx] = '\n';
+		syslog(LOG_USER | LOG_WARNING, "WARN: %s", msg);
 	} else {
 		textcolor(BRIGHT, YELLOW, BLACK);
 	  printf("WARN: ");
 	  textcolor(RESET, WHITE, BLACK);
 	}
 
-
-
-  for(p = format; *p; p++){
+	for(p = format; *p; p++){
     if(*p != '%'){
-      putchar(*p);
+			if(currentLogType != SYSLOG){
+				putchar(*p);
+			}
       continue;
     }
     switch (*++p) {
       case 'd':
         ival = va_arg(argPtr, int);
-        printf("%d\n", ival);
+				if(currentLogType == SYSLOG){
+					syslog(LOG_USER | LOG_WARNING, "%d\n", ival);
+				} else {
+					printf("%d\n", ival);
+				}
         break;
       case 'f':
         dval = va_arg(argPtr, double);
-        printf("%f\n", dval);
+				if(currentLogType == SYSLOG){
+					syslog(LOG_USER | LOG_WARNING, "%f\n", dval);
+				} else {
+					printf("%f\n", dval);
+				}
         break;
       case 's':
         for (sval = va_arg(argPtr, char *); *sval; sval++){
-          putchar(*sval);
+					if(currentLogType == SYSLOG){
+						syslog(LOG_USER | LOG_WARNING, "%c", *sval);
+					} else {
+						putchar(*sval);
+					}
         }
         break;
       default:
-        putchar(*p);
+				if(currentLogType == SYSLOG){
+					syslog(LOG_USER | LOG_WARNING, "%c\n", *p);
+				} else {
+					putchar(*p);
+				}
         break;
     }
   }
@@ -159,31 +191,62 @@ int errorf(const char *format, ...){
 
   va_start(argPtr, format);
 
-  textcolor(BRIGHT, RED, BLACK);
-  printf("ERROR: ");
-  textcolor(RESET, WHITE, BLACK);
+	if(currentLogType == SYSLOG){
+		char msg[50];
+		int idx = 0;
+		p = format;
+		while(*p != '%'){
+			msg[idx] = *p;
+			p++;
+			idx++;
+		}
+		msg[idx] = '\n';
+		syslog(LOG_USER | LOG_ERR, "ERROR: %s", msg);
+	} else {
+		textcolor(BRIGHT, RED, BLACK);
+	  printf("ERROR: ");
+	  textcolor(RESET, WHITE, BLACK);
+	}
 
-  for(p = format; *p; p++){
+	for(p = format; *p; p++){
     if(*p != '%'){
-      putchar(*p);
+			if(currentLogType != SYSLOG){
+				putchar(*p);
+			}
       continue;
     }
     switch (*++p) {
       case 'd':
         ival = va_arg(argPtr, int);
-        printf("%d\n", ival);
+				if(currentLogType == SYSLOG){
+					syslog(LOG_USER | LOG_ERR, "%d\n", ival);
+				} else {
+					printf("%d\n", ival);
+				}
         break;
       case 'f':
         dval = va_arg(argPtr, double);
-        printf("%f\n", dval);
+				if(currentLogType == SYSLOG){
+					syslog(LOG_USER | LOG_ERR, "%f\n", dval);
+				} else {
+					printf("%f\n", dval);
+				}
         break;
       case 's':
         for (sval = va_arg(argPtr, char *); *sval; sval++){
-          putchar(*sval);
+					if(currentLogType == SYSLOG){
+						syslog(LOG_USER | LOG_ERR, "%c", *sval);
+					} else {
+						putchar(*sval);
+					}
         }
         break;
       default:
-        putchar(*p);
+				if(currentLogType == SYSLOG){
+					syslog(LOG_USER | LOG_ERR, "%c\n", *p);
+				} else {
+					putchar(*p);
+				}
         break;
     }
   }
@@ -214,32 +277,63 @@ int panicf(const char *format, ...){
 
   va_start(argPtr, format);
 
-  textcolor(BRIGHT, BLACK, RED);
-  printf("PANIC:");
-  textcolor(RESET, WHITE, BLACK);
-  printf(" ");
+	if(currentLogType == SYSLOG){
+		char msg[50];
+		int idx = 0;
+		p = format;
+		while(*p != '%'){
+			msg[idx] = *p;
+			p++;
+			idx++;
+		}
+		msg[idx] = '\n';
+		syslog(LOG_USER | LOG_EMERG, "PANIC: %s", msg);
+	} else {
+		textcolor(BRIGHT, BLACK, RED);
+	  printf("PANIC:");
+	  textcolor(RESET, WHITE, BLACK);
+	  printf(" ");
+	}
 
-  for(p = format; *p; p++){
+	for(p = format; *p; p++){
     if(*p != '%'){
-      putchar(*p);
+			if(currentLogType != SYSLOG){
+				putchar(*p);
+			}
       continue;
     }
     switch (*++p) {
       case 'd':
         ival = va_arg(argPtr, int);
-        printf("%d\n", ival);
+				if(currentLogType == SYSLOG){
+					syslog(LOG_USER | LOG_EMERG, "%d\n", ival);
+				} else {
+					printf("%d\n", ival);
+				}
         break;
       case 'f':
         dval = va_arg(argPtr, double);
-        printf("%f\n", dval);
+				if(currentLogType == SYSLOG){
+					syslog(LOG_USER | LOG_EMERG, "%f\n", dval);
+				} else {
+					printf("%f\n", dval);
+				}
         break;
       case 's':
         for (sval = va_arg(argPtr, char *); *sval; sval++){
-          putchar(*sval);
+					if(currentLogType == SYSLOG){
+						syslog(LOG_USER | LOG_EMERG, "%c", *sval);
+					} else {
+						putchar(*sval);
+					}
         }
         break;
       default:
-        putchar(*p);
+				if(currentLogType == SYSLOG){
+					syslog(LOG_USER | LOG_EMERG, "%c\n", *p);
+				} else {
+					putchar(*p);
+				}
         break;
     }
   }
