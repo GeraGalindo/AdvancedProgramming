@@ -1,9 +1,34 @@
+/*
+ * Created by @GeraGalindo on 03/26/2019
+ *
+ * */
+
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
 #include <stdlib.h>
+#include <signal.h>
 
 #include "logger.h"
+
+/*
+ * This Program encodes and decodes using a base64 algorithm based on:
+ *
+ * https://en.wikibooks.org/wiki/Algorithm_Implementation/Miscellaneous/Base64
+ *
+ * Additionally it registers SIGINT and SIGPWR signals so that they can handled.
+ *
+ * When a signal is caught, the progress of the encoding/decoding is printed.
+ *
+ * Note:
+ * Since the encoding/decoding is relatively fast, we cannot send SIGINT (Ctl+c) or SIGPWR (Clt+t)
+ * Therefore, I am sending the raising the signals with raise(sig_number) System Call.
+ *
+ * Similarly we could create/fork another process to raise those signals but for demonstration
+ * purposes I decided to use the raise() system call arbitrarily.
+ *
+ * */
+
 
 #define WHITESPACE 64
 #define EQUALS     65
@@ -14,18 +39,37 @@ int base64encode(const void* data_buf, ssize_t dataLength, char* result, size_t 
 int base64decode (char *in, ssize_t inLen, unsigned char *out, size_t *outLen);
 void encodeFile(const char *fileName);
 void decodeFile(const char *fileName);
+void signalHandler(int);
+int getNumberOfLines(const char *fileName);
+
+int readLines;
+int numberLines = 0;
 
 int main(int argc, char *argv[]) {
     initLogger("STDOUT");
     infof("Starting base64 program\n");
 
+    // Signal Registration SIGINT
+    if(signal(SIGINT, signalHandler) == SIG_ERR){
+        errorf("Unable to set the SIGINT signal handler\n");
+        exit(1);
+    }
+
+    // Signal Registration SIGINFO = SIGPWR
+    if(signal(SIGPWR, signalHandler) == SIG_ERR){
+        errorf("Unable to set the SIGPWR signal handler\n");
+        exit(1);
+    }
+
     if (argc != 3){
         printUsage();
     } else {
         if (!strcmp("--encode", argv[1])){
+            getNumberOfLines(argv[2]);
             encodeFile(argv[2]);
         }
         if (!strcmp("--decode", argv[1])){
+            getNumberOfLines(argv[2]);
             decodeFile(argv[2]);
         }
     }
@@ -39,6 +83,32 @@ void printUsage(){
           "./base64 --decode <encoded_file>   (To decode a file using the base64 algorithm)\n");
 }
 
+int getNumberOfLines(const char *fileName){
+    char* buffer;
+    ssize_t charCount;
+    size_t buffSize = 256;
+    FILE *fp;
+
+    fp = fopen(fileName, "r");
+    if (fp == NULL){
+        errorf("Unable to open file: %s\n", fileName);
+        exit(1);
+    }
+
+    buffer = (char*)malloc(buffSize * sizeof(char));
+    if (buffer == NULL){
+        errorf("Unable to allocate buffer\n");
+        exit(1);
+    }
+
+    do{
+        charCount = getline(&buffer, &buffSize, fp);
+        ++numberLines;
+    } while (charCount >= 0);
+
+    return numberLines;
+}
+
 void encodeFile(const char *fileName){
     infof("Encoding file: %s\n", fileName);
     char* buffer;
@@ -47,6 +117,8 @@ void encodeFile(const char *fileName){
     ssize_t charCount;
     FILE *ifp;
     FILE *ofp;
+
+    readLines = 0;
 
     ifp = fopen(fileName, "r");
     ofp = fopen("encoded.txt", "w");
@@ -59,12 +131,18 @@ void encodeFile(const char *fileName){
         }
 
         charCount = getline(&buffer, &buffSize, ifp);
+        ++readLines;
 
         while(charCount >= 0){
             base64encode(buffer, charCount, outBuffer, buffSize);
             fprintf(ofp, "%s\n", outBuffer);
             charCount = (size_t) getline(&buffer, &buffSize, ifp);
+            ++readLines;
+            if (!(readLines%1000)){
+                raise(SIGINT);
+            }
         }
+        raise(SIGPWR);
         free(buffer);
         free(outBuffer);
         fclose(ofp);
@@ -82,6 +160,8 @@ void decodeFile(const char *fileName){
     size_t buffSize = 128;
     ssize_t charCount;
 
+    readLines = 0;
+
     ifp = fopen(fileName, "r");
     ofp = fopen("decoded.txt", "w");
     if(ifp != NULL && ofp != NULL){
@@ -92,6 +172,7 @@ void decodeFile(const char *fileName){
         }
 
         charCount = getline(&inBuffer, &buffSize, ifp);
+        ++readLines;
 
         while(charCount >= 0){
             outBuffer = (unsigned char*)calloc(256, sizeof(unsigned char));
@@ -103,7 +184,12 @@ void decodeFile(const char *fileName){
             fprintf(ofp, "%s", outBuffer);
             charCount = (size_t) getline(&inBuffer, &buffSize, ifp);
             free(outBuffer);
+            ++readLines;
+            if (!(readLines%1000)){
+                raise(SIGINT);
+            }
         }
+        raise(SIGPWR);
         free(inBuffer);
         fclose(ofp);
         fclose(ifp);
@@ -111,7 +197,32 @@ void decodeFile(const char *fileName){
     infof("Done Decoding File: %s\n", fileName);
 }
 
-// Function copied from https://en.wikibooks.org/wiki/Algorithm_Implementation/Miscellaneous/Base64
+void signalHandler(int signal){
+    int progress = readLines*100/(numberLines-1);
+    switch (signal){
+        case SIGPWR:
+            infof("SIGPWR Signal Caught\n");
+            infof("Progress: %d percent\n", progress);
+            break;
+        case SIGINT:
+            infof("SIGINT Signal Caught\n");
+            infof("Progress: %d percent\n", progress);
+            break;
+        default:
+            infof("Other Signal Caught\n");
+            break;
+    }
+}
+
+/*
+ * This block of code was copied from the link below and slightly modified to fit our needs
+ *
+ * Copied from https://en.wikibooks.org/wiki/Algorithm_Implementation/Miscellaneous/Base64
+ *
+ * Block of code starts here...
+ *
+ * */
+
 int base64encode(const void* data_buf, ssize_t dataLength, char* result, size_t resultSize)
 {
     const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -187,7 +298,6 @@ int base64encode(const void* data_buf, ssize_t dataLength, char* result, size_t 
     return 0;   /* indicate success */
 }
 
-// Array copied from https://en.wikibooks.org/wiki/Algorithm_Implementation/Miscellaneous/Base64
 static const unsigned char d[] = {
         66,66,66,66,66,66,66,66,66,66,64,66,66,66,66,66,66,66,66,66,66,66,66,66,66,
         66,66,66,66,66,66,66,66,66,66,66,66,66,66,66,66,66,66,62,66,66,66,63,52,53,
@@ -202,7 +312,6 @@ static const unsigned char d[] = {
         66,66,66,66,66,66
 };
 
-// Function copied from https://en.wikibooks.org/wiki/Algorithm_Implementation/Miscellaneous/Base64
 int base64decode (char *in, ssize_t inLen, unsigned char *out, size_t *outLen) {
     char *end = in + inLen;
     char iter = 0;
@@ -246,3 +355,10 @@ int base64decode (char *in, ssize_t inLen, unsigned char *out, size_t *outLen) {
     *outLen = len; /* modify to reflect the actual output size */
     return 0;
 }
+
+/*
+ * Block of code finishes here...
+ *
+ * Copied from https://en.wikibooks.org/wiki/Algorithm_Implementation/Miscellaneous/Base64
+ *
+ * */

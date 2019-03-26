@@ -83,9 +83,9 @@ int infof(const char *format, ...){
             case 'd':
                 ival = va_arg(argPtr, int);
                 if(currentLogType == SYSLOG){
-                    syslog(LOG_USER | LOG_INFO, "%d\n", ival);
+                    syslog(LOG_USER | LOG_INFO, "%d", ival);
                 } else {
-                    printf("%d\n", ival);
+                    printf("%d", ival);
                 }
                 break;
             case 'f':
