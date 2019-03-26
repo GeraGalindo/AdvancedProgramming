@@ -41,7 +41,7 @@
   
   <meta name="pjax-timeout" content="1000">
   
-  <meta name="request-id" content="9E6E:23E8:17DA47:2E9FB5:5C996DC6" data-pjax-transient>
+  <meta name="request-id" content="D140:3018:53206E:A00790:5C9A691A" data-pjax-transient>
 
 
   
@@ -52,7 +52,7 @@
     <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
     <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
 
-  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="9E6E:23E8:17DA47:2E9FB5:5C996DC6" /><meta name="octolytics-dimension-region_edge" content="iad" /><meta name="octolytics-dimension-region_render" content="iad" />
+  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="D140:3018:53206E:A00790:5C9A691A" /><meta name="octolytics-dimension-region_edge" content="iad" /><meta name="octolytics-dimension-region_render" content="iad" />
 <meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" />
 
 
@@ -70,7 +70,7 @@
     <meta name="user-login" content="">
 
       <meta name="expected-hostname" content="github.com">
-    <meta name="js-proxy-site-detection-payload" content="Yjk4YzQ2YTI2Y2ExMzgzYTNhZDFkYThlZTc0NTUwMGY2ZjVjZDYwMGU2MmVkYjU3NjM1NjJiMjA0MDkyMWYzZHx7InJlbW90ZV9hZGRyZXNzIjoiMTg5LjE4Mi41MS4xMjkiLCJyZXF1ZXN0X2lkIjoiOUU2RToyM0U4OjE3REE0NzoyRTlGQjU6NUM5OTZEQzYiLCJ0aW1lc3RhbXAiOjE1NTM1NTg5OTIsImhvc3QiOiJnaXRodWIuY29tIn0=">
+    <meta name="js-proxy-site-detection-payload" content="MWNiMzgyOWZjYzI2OTM1M2FlM2M3MTU2NzQ5ODkwODQ0MWJkY2JjMTY0OTZmMWU0OGZlNDlhNjA0Yzk4YzU0MHx7InJlbW90ZV9hZGRyZXNzIjoiMTg5LjE4Mi41MS4xMjkiLCJyZXF1ZXN0X2lkIjoiRDE0MDozMDE4OjUzMjA2RTpBMDA3OTA6NUM5QTY5MUEiLCJ0aW1lc3RhbXAiOjE1NTM2MjMzMjIsImhvc3QiOiJnaXRodWIuY29tIn0=">
 
     <meta name="enabled-features" content="UNIVERSE_BANNER,MARKETPLACE_SOCIAL_PROOF,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_UNVERIFIED_LISTINGS,MARKETPLACE_PLAN_RESTRICTION_EDITOR">
 
@@ -255,7 +255,7 @@
           aria-autocomplete="list"
           aria-controls="jump-to-results"
           aria-label="Search"
-          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=wV5dhvY0+GRbCPtaz1Xt/sXT0ioHpCN7RmNai56viwSoCAb54dbDvRqzr14o9ngz8S2xLmGFeuyfFFK0PmmGpw=="
+          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=J7WOsLEx5t4FD9jNKnXIolrBmA8u7dYF14nqeV04yZBO49XPptPdB0S0jMnN1l1vbj/7C0jMj5IO/uJG/f7EMw=="
           spellcheck="false"
           autocomplete="off"
           >
@@ -380,9 +380,9 @@
 
           </div>
 
-        <a class="HeaderMenu-link no-underline mr-3" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;9E6E:23E8:17DA47:2E9FB5:5C996DC6&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="ac6860eb1539db2d38b1a4daf0d3610b5aaeb8bef45559e6ce7f2f76710c4c52" data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in" href="/login?return_to=%2FCodersSquad%2Fap-labs%2Fblob%2Fmaster%2Flabs%2Flab3.2%2FREADME.md">
+        <a class="HeaderMenu-link no-underline mr-3" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;D140:3018:53206E:A00790:5C9A691A&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="07522dff6aee051ba1621bc80c2a29a0d966880c0caf1345f384939906ae17fb" data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in" href="/login?return_to=%2FCodersSquad%2Fap-labs%2Fblob%2Fmaster%2Flabs%2Flab3.2%2FREADME.md">
           Sign&nbsp;in
-</a>          <a class="HeaderMenu-link d-inline-block no-underline border border-gray-dark rounded-1 px-2 py-1" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;9E6E:23E8:17DA47:2E9FB5:5C996DC6&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="98a6c4dd125cb9c805d304bbccdcd0faf4a6939ce48eef102353b4a8a3f3c7ba" data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up" href="/join">
+</a>          <a class="HeaderMenu-link d-inline-block no-underline border border-gray-dark rounded-1 px-2 py-1" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;D140:3018:53206E:A00790:5C9A691A&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="bc2240edf35e1d3ddc08f1e4bcde6dc30d9ec5ab29c5cfd0329bc95c5e7ec8de" data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up" href="/join">
             Sign&nbsp;up
 </a>      </div>
     </div>
@@ -422,7 +422,7 @@
 
 
   <li>
-      <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to watch a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;9E6E:23E8:17DA47:2E9FB5:5C996DC6&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="8138e026f6b2d68b55786b14902aab8d5fc9b2c71fb8273ab9009fc029527cd0" href="/login?return_to=%2FCodersSquad%2Fap-labs">
+      <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to watch a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;D140:3018:53206E:A00790:5C9A691A&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="6e55f980ecf857aa7cb22f5718a5732d35559db10e999cac47721d9a366096c6" href="/login?return_to=%2FCodersSquad%2Fap-labs">
     <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
     Watch
 </a>  <a class="social-count" href="/CodersSquad/ap-labs/watchers"
@@ -433,7 +433,7 @@
   </li>
 
   <li>
-        <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to star a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:169184199,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;9E6E:23E8:17DA47:2E9FB5:5C996DC6&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="801001fa2586ca274549dbab50180fc8ceb34af96ce8ffa91c27e0d42e961989" href="/login?return_to=%2FCodersSquad%2Fap-labs">
+        <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to star a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:169184199,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;D140:3018:53206E:A00790:5C9A691A&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="c3777f892526ed7fd7f2bc174af312e268bec9833c460808a2bb6ace84ca4c70" href="/login?return_to=%2FCodersSquad%2Fap-labs">
       <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
       Star
 </a>
@@ -445,7 +445,7 @@
   </li>
 
   <li>
-      <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to fork a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:169184199,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;9E6E:23E8:17DA47:2E9FB5:5C996DC6&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="ea92191f7cae56189151af763a39c38ef3eb40ba87c01f12df3a214ddac5b957" href="/login?return_to=%2FCodersSquad%2Fap-labs">
+      <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to fork a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:169184199,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;D140:3018:53206E:A00790:5C9A691A&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="263857e103df484d906bf5804474286a4a73f149c5d3c71517a9d3dc49f1a1a3" href="/login?return_to=%2FCodersSquad%2Fap-labs">
         <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
         Fork
 </a>
@@ -528,13 +528,13 @@
         <div class="signup-prompt-bg rounded-1">
       <div class="signup-prompt p-4 text-center mb-4 rounded-1">
         <div class="position-relative">
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/site/dismiss_signup_prompt" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="w6/xtQlyJG3gqsVRQVu27mJ0zfBLhN45aHmpVXKrauzQq8Hn2JaNQbzQB+2Fp4ppClvwTIYFghr9L01cDIS50g==" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/site/dismiss_signup_prompt" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="tf9MSM+Vm3ha3M8QmHgGMEvz8wiHRQ+EX0axL3aUFCWm+3waHnEyVAamDaxchDq3I9zOtErEU6fKEFUmCLvHGw==" />
             <button type="submit" class="position-absolute top-0 right-0 btn-link link-gray" data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss">
               Dismiss
             </button>
 </form>          <h3 class="pt-2">Join GitHub today</h3>
           <p class="col-6 mx-auto">GitHub is home to over 31 million developers working together to host and review code, manage projects, and build software together.</p>
-          <a class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;9E6E:23E8:17DA47:2E9FB5:5C996DC6&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="5e9d82156d924e868dfaf0a97ec92ff3d7efd114ec7750570bd97bd8dd758578" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" href="/join?source=prompt-blob-show">Sign up</a>
+          <a class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:&quot;2129805774.1547663197&quot;,&quot;originating_request_id&quot;:&quot;D140:3018:53206E:A00790:5C9A691A&quot;,&quot;originating_url&quot;:&quot;https://github.com/CodersSquad/ap-labs/blob/master/labs/lab3.2/README.md&quot;,&quot;referrer&quot;:&quot;https://github.com/CodersSquad/ap-labs/tree/master/labs/lab3.2&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="ae46d667a69b144ab3b98d99a897b1722041011a8bc16dfce945dda93ac1802b" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" href="/join?source=prompt-blob-show">Sign up</a>
         </div>
       </div>
     </div>
@@ -576,53 +576,16 @@
 
 
 
-    
-  <div class="Box Box--condensed d-flex flex-column flex-shrink-0">
-      <div class="Box-body d-flex flex-justify-between bg-blue-light flex-items-center">
-        <span class="pr-md-4 f6">
-          <a rel="contributor" data-skip-pjax="true" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=2779484" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/obedmr"><img class="avatar" src="https://avatars1.githubusercontent.com/u/2779484?s=40&amp;v=4" width="20" height="20" alt="@obedmr" /></a>
-          <a class="text-bold link-gray-dark lh-default v-align-middle" rel="contributor" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=2779484" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/obedmr">obedmr</a>
-            <span class="lh-default v-align-middle">
-              <a data-pjax="true" title="Update Submission instructions
-
-Signed-off-by: Obed N Munoz &lt;obed.n.munoz@gmail.com&gt;" class="link-gray" href="/CodersSquad/ap-labs/commit/e661b12b95dea3c38cc6f69ac9330507797fea5f">Update Submission instructions</a>
-            </span>
-        </span>
-        <span class="d-inline-block flex-shrink-0 v-align-bottom f6">
-          <a class="pr-2 text-mono link-gray" href="/CodersSquad/ap-labs/commit/e661b12b95dea3c38cc6f69ac9330507797fea5f" data-pjax>
-            e661b12
-          </a>
-          <relative-time datetime="2019-03-17T05:58:01Z">Mar 16, 2019</relative-time>
-        </span>
+    <include-fragment src="/CodersSquad/ap-labs/contributors/master/labs/lab3.2/README.md" class="Box Box--condensed commit-loader">
+      <div class="Box-body bg-blue-light f6">
+        Fetching contributors&hellip;
       </div>
 
-    <div class="Box-body d-flex flex-items-center flex-auto f6 border-bottom-0" >
-      <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark float-left mr-2" id="blob_contributors_box" >
-        <summary class="btn-link" aria-haspopup="dialog">
-          <span><strong>1</strong> contributor</span>
-        </summary>
-        <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast" aria-label="Users who have contributed to this file">
-          <div class="Box-header">
-            <button class="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog>
-              <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
-            </button>
-            <h3 class="Box-title">
-              Users who have contributed to this file
-            </h3>
-          </div>
-              <ul class="list-style-none overflow-auto">
-    <li class="Box-row">
-      <a class="link-gray-dark no-underline" href="/obedmr">
-        <img class="avatar mr-1" alt="" src="https://avatars1.githubusercontent.com/u/2779484?s=40&amp;v=4" width="20" height="20" />
-        obedmr
-</a>    </li>
-</ul>
-
-        </details-dialog>
-      </details>
-    </div>
-  </div>
-
+      <div class="Box-body d-flex flex-items-center" >
+          <img alt="" class="loader-loading mr-2" src="https://github.githubassets.com/images/spinners/octocat-spinner-32-EAF2F5.gif" width="16" height="16" />
+        <span class="text-red h6 loader-error">Cannot retrieve contributors at this time</span>
+      </div>
+</include-fragment>
 
 
 
@@ -761,7 +724,7 @@ kill -SIGINFO &lt;PID&gt;
 <div class="footer container-lg width-full px-3" role="contentinfo">
   <div class="position-relative d-flex flex-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
     <ul class="list-style-none d-flex flex-wrap ">
-      <li class="mr-3">&copy; 2019 <span title="0.19676s from unicorn-658595dffc-t5bq4">GitHub</span>, Inc.</li>
+      <li class="mr-3">&copy; 2019 <span title="0.24018s from unicorn-6c88b8d99-ggcc9">GitHub</span>, Inc.</li>
         <li class="mr-3"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
         <li class="mr-3"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
         <li class="mr-3"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
