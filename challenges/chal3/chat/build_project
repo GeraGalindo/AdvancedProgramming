@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+go build server/server.go
+
+go build client/client.go
+
+
