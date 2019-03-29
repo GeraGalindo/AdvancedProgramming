@@ -22,6 +22,17 @@ Requirements
 - Coding best practices that we learned in class will be reviewed.
 - Before submitting you code, make sure it's compiling and running correctly.
 
+To Build the project
+--------------------
+./build_project
+
+To Run the server
+------------------
+./server.go -host localhost -port 9000
+
+To Run the client
+./client.go -user user1 -server localhost:9000
+
 
 Sample IRC Server output
 ------------------------

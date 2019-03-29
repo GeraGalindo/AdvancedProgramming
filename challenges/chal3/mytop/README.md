@@ -15,6 +15,18 @@ Requirements
 - Coding best practices that we learned in class will be reviewed.
 - Before submitting you code, make sure it's compiling and running correctly.
 
+To build the project
+--------------------
+make
+
+To clean the projec
+-------------------
+make clean
+
+To run the project
+------------------
+sudo ./mytop # it will ask you for your password
+
 
 Sample mytop output
 -------------------
