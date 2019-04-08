@@ -1,0 +1,8 @@
+In the dotprod_serial.c program we can see that a struct is created with two pointers to ‘a’ and ‘b’, which are the vectors to be multiplied.
+
+In the main function we allocate space for ‘a’ and ‘b’, then assign values to those vectors by looping thru them.
+Later on, the vectors are assigned to the structure and the dot product function is called.
+
+In the dotprod() function we assign the values to local variables and then the dot product is calculated by multiplying each corresponding index of the two vectors.
+
+The control returns to the main routine and the dot product is printed.
