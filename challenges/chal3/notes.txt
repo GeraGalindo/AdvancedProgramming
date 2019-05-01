@@ -1,0 +1,4 @@
+/proc/<PID>/status  -> most of the information will be here
+/proc/<PID>/fd      -> regardign open files
+
+
