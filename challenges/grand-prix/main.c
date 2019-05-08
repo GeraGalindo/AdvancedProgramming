@@ -4,11 +4,24 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <pthread.h>
+#include <string.h>
 
-int main() {
-    printf("Welcome to Grand Prix!\n");
+char serverMessage[] = "Message X";
+
+void clearMessage(){
+    for(int i = 0; i < 10; ++i){
+        serverMessage[i] = 0;
+    }
+}
+
+static void * connectionThread(void *arg){
+    char *s = (char *) arg;
+    printf("%s\n", s);
+
     // Default message to be sent to clients
-    char serverMessage[] = "Message from Grand Prix";
+
+    char msgIdx = '0';
 
     // create a socket
     int serverSocket;
@@ -29,10 +42,56 @@ int main() {
     // Handle connections
     int clientSocket = accept(serverSocket, NULL, NULL);
 
-    // Send Message
-    send(clientSocket, serverMessage, sizeof(serverMessage), 0);
+    int cmd = getchar();
+    while(cmd != 'q'){
+        serverMessage[8] = msgIdx;
+        // Send Single Message
+        send(clientSocket, serverMessage, sizeof(serverMessage), 0);
+        msgIdx++;
+        char serverResponse[64];
+        recv(clientSocket, &serverResponse, sizeof(serverResponse), 0);
+        printf("From Raspberry: %s", serverResponse);
+        cmd = getchar();
+        if (cmd == 'q'){
+            clearMessage();
+            stpcpy(serverMessage, "Quit");
+            send(clientSocket, serverMessage, sizeof(serverMessage), 0);
+            printf("%s\n", serverMessage);
+            break;
+        }
+    }
+
+    printf("Closing Socket\n");
 
     // Close the socket
     close(serverSocket);
+
+    return (void *) strlen(s);
+}
+
+void printWelcomeScreen(){
+
+}
+
+int main() {
+    printf("Welcome to Grand Prix!\n");
+    printWelcomeScreen();
+
+    pthread_t serverThread;
+    void *res;
+    int s;
+
+    s = pthread_create(&serverThread, NULL, connectionThread, "Initializing TCP Server Thread");
+    if (s != 0){
+        printf("Error while creating thread\n");
+    }
+
+    s = pthread_join(serverThread, &res);
+    if (s != 0){
+        printf("Error while joining thread\n");
+    }
+
+    printf("Thread Joined\n");
+
     return 0;
 }
