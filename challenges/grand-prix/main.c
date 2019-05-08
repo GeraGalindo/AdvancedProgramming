@@ -7,6 +7,8 @@
 #include <pthread.h>
 #include <string.h>
 
+#include "window_management.h"
+
 char serverMessage[] = "Message X";
 
 void clearMessage(){
@@ -69,13 +71,10 @@ static void * connectionThread(void *arg){
     return (void *) strlen(s);
 }
 
-void printWelcomeScreen(){
-
-}
-
 int main() {
     printf("Welcome to Grand Prix!\n");
-    printWelcomeScreen();
+    initWindow(); // function to indicate to initialize the window
+    printWelcomeScreen(); // function to print the welcome screen
 
     pthread_t serverThread;
     void *res;
@@ -92,6 +91,8 @@ int main() {
     }
 
     printf("Thread Joined\n");
+
+    endWindow(); // function to indicate to terminate the window
 
     return 0;
 }
