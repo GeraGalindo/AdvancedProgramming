@@ -18,10 +18,10 @@
 #define LCD_D6  21               //Data pin 6
 #define LCD_D7  14               //Data pin 7
 
-char serverMessage[10];
+char serverMessage[16];
 
 void clearMessage(){
-	for(int i = 0; i < 10; ++i){
+	for(int i = 0; i < 16; ++i){
 		serverMessage[i] = 0;
 	}
 }
