@@ -7,9 +7,12 @@
 #include <pthread.h>
 #include <string.h>
 
-#include "window_management.h"
+#include "coordinates.h"
 
+// Default message to be sent to clients
 char serverMessage[] = "Message X";
+int numRacers = 0;
+int numLaps = 0;
 
 void clearMessage(){
     for(int i = 0; i < 10; ++i){
@@ -20,8 +23,6 @@ void clearMessage(){
 static void * connectionThread(void *arg){
     char *s = (char *) arg;
     printf("%s\n", s);
-
-    // Default message to be sent to clients
 
     char msgIdx = '0';
 
@@ -71,10 +72,61 @@ static void * connectionThread(void *arg){
     return (void *) strlen(s);
 }
 
+void getRacers(){
+    while(numRacers == 0){
+        printf("Type the number of Racers (1 - 3)\n");
+        int num = getchar();
+        switch (num) {
+            case '1':
+                numRacers = 1;
+                break;
+            case '2':
+                numRacers = 2;
+                break;
+            case '3':
+                numRacers = 3;
+                break;
+            default:
+                printf("ERROR: Only numbers from 1 to 4\n\n");
+                break;
+        }
+    }
+    getchar();
+}
+
+void getLaps(){
+    while(numLaps == 0){
+        printf("Type the number of Laps (1 - 4)\n");
+        int laps = getchar();
+        switch (laps) {
+            case '1':
+                numLaps = 1;
+                break;
+            case '2':
+                numLaps = 2;
+                break;
+            case '3':
+                numLaps = 3;
+                break;
+            case '4':
+                numLaps = 4;
+                break;
+            default:
+                printf("ERROR: Only numeric values from 1 to 4\n\n");
+                break;
+        }
+    }
+    getchar();
+}
+
 int main() {
     printf("Welcome to Grand Prix!\n");
-    initWindow(); // function to indicate to initialize the window
-    printWelcomeScreen(); // function to print the welcome screen
+    getRacers();
+    getLaps();
+
+    // TODO: Create a Thread for each numRacers
+
+    printf("Racers: %d\nLaps: %d\n", numRacers, numLaps);
 
     pthread_t serverThread;
     void *res;
@@ -85,14 +137,25 @@ int main() {
         printf("Error while creating thread\n");
     }
 
+    system("python graphics.py");
+
+    // TODO: Delete this while loop and instead run this Matrix traverse in each thread
+    while(1){
+        for(int i = 0; i < 8; ++i){
+            for (int j = 0; j < 100; ++j){
+                // TODO: Check if corresponding file exists; If (file exist) -> Wait ... else write coordinates
+
+            }
+        }
+        break;
+    }
+
     s = pthread_join(serverThread, &res);
     if (s != 0){
         printf("Error while joining thread\n");
     }
 
     printf("Thread Joined\n");
-
-    endWindow(); // function to indicate to terminate the window
 
     return 0;
 }
