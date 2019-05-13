@@ -72,6 +72,37 @@ static void * connectionThread(void *arg){
     return (void *) strlen(s);
 }
 
+static void * blueThread(void *arg){
+    char *s = (char *) arg;
+    printf("%s\n", s);
+
+    while(1){
+        for(int i = 0; i < 1; ++i){
+            for (int j = 0; j < 46; ++j){
+                usleep(100000);
+                // TODO: Check if corresponding file exists; If (file exist) -> Wait ... else write coordinates
+                printf("X: %d\tY: %d\n", inner[j][i], inner[j][i+1]);
+                FILE *file;
+                file = fopen("status.txt", "w");
+                if(file == NULL){
+                    printf("Error while opening the status file\n");
+                    continue;
+                }
+                fprintf(file, "%s", "Blue ");
+                fprintf(file, "%d", inner[j][i]);
+                fprintf(file, "%s", " ");
+                fprintf(file, "%d", inner[j][i+1]);
+                fprintf(file, "%s", " 0");
+                fclose(file);
+
+            }
+        }
+        break;
+    }
+
+    return (void *) strlen(s);
+}
+
 void getRacers(){
     while(numRacers == 0){
         printf("Type the number of Racers (1 - 3)\n");
@@ -129,6 +160,7 @@ int main() {
     printf("Racers: %d\nLaps: %d\n", numRacers, numLaps);
 
     pthread_t serverThread;
+    pthread_t blueCarThread;
     void *res;
     int s;
 
@@ -137,17 +169,11 @@ int main() {
         printf("Error while creating thread\n");
     }
 
-    system("python graphics.py");
+    system("python graphics.py &");
 
-    // TODO: Delete this while loop and instead run this Matrix traverse in each thread
-    while(1){
-        for(int i = 0; i < 8; ++i){
-            for (int j = 0; j < 100; ++j){
-                // TODO: Check if corresponding file exists; If (file exist) -> Wait ... else write coordinates
-
-            }
-        }
-        break;
+    s = pthread_create(&blueCarThread, NULL, blueThread, "Running Blue Car Thread");
+    if (s != 0){
+        printf("Error while creating thread\n");
     }
 
     s = pthread_join(serverThread, &res);
