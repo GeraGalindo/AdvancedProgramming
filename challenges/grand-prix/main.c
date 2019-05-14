@@ -6,11 +6,22 @@
 #include <netinet/in.h>
 #include <pthread.h>
 #include <string.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
 
 #include "coordinates.h"
 
+#define LOWERLIMIT 100000
+#define UPPERLIMIT 300000
+
 int numRacers = 0;
 int numLaps = 0;
+
+int blueSpeed = 0;
+int greenSpeed = 0;
+int redSpeed = 0;
 
 pthread_mutex_t lock;
 
@@ -66,41 +77,163 @@ void sendMessage(char *msg){
 static void * blueThread(void *arg){
     char *s = (char *) arg;
     printf("%s\n", s);
+    int blueX, blueY;
+    blueX = 60;
+    blueY = 325;
+    int upperLeftLimit = 60;
+    int upperRightLimit = 815;
+    int lowerRightLimit = 585;
+    int lowerLeftLimit = 70;
+    int raceGoalLimit = 240;
 
     while(1){
-        for(int i = 0; i < 1; ++i){
-            for (int j = 0; j < 500; ++j){
-                usleep(100000);
-                // TODO: Check if corresponding file exists; If (file exist) -> Wait ... else write coordinates
-                //printf("X: %d\tY: %d\n", outer[j][i], outer[j][i+1]);
+        FILE *file;
+        for(int i = 0; i < numLaps; ++i){
+            for(; blueY >= upperLeftLimit; blueY=blueY-5){
+                usleep(blueSpeed);
+                printf("X: %d\tY: %d\n", blueX, blueY);
+
                 pthread_mutex_lock(&lock);
-                FILE *file;
                 file = fopen("blue.txt", "w");
                 if(file == NULL){
                     printf("Error while opening the status file\n");
-                    continue;
                 }
-                if(outer[j][i] == 50 && outer[j][i+1] == 60){           // FIRST TURN
-                    fprintf(file, "%s", "Blue ");
-                    fprintf(file, "%d", 50);
-                    fprintf(file, "%s", " ");
-                    fprintf(file, "%d", 60);
-                    fprintf(file, "%s", " -90");
-                } else if(outer[j][i] == 835 && outer[j][i+1] == 60){    // SECOND TURN
-                    fprintf(file, "%s", "Blue ");
-                    fprintf(file, "%d", 835);
-                    fprintf(file, "%s", " ");
-                    fprintf(file, "%d", 60);
-                    fprintf(file, "%s", " -90");
-                }
-                else {                                                  // STRAIGHT LINE
-                    fprintf(file, "%s", "Blue ");
-                    fprintf(file, "%d", outer[j][i]);
-                    fprintf(file, "%s", " ");
-                    fprintf(file, "%d", outer[j][i+1]);
-                    fprintf(file, "%s", " 0");
-                }
+                fprintf(file, "%s", "Blue ");
+                fprintf(file, "%d", blueX);
+                fprintf(file, "%s", " ");
+                fprintf(file, "%d", blueY);
+                fprintf(file, "%s", " 0");
+                fclose(file);
+                pthread_mutex_unlock(&lock);
+            }
+            usleep(blueSpeed);
+            sendMessage("TURN RIGHT");
+            printf("X: %d\tY: %d\n", blueX, blueY);
+            pthread_mutex_lock(&lock);
+            file = fopen("blue.txt", "w");
+            if(file == NULL){
+                printf("Error while opening the status file\n");
+            }
+            fprintf(file, "%s", "Blue ");
+            fprintf(file, "%d", blueX);
+            fprintf(file, "%s", " ");
+            fprintf(file, "%d", blueY);
+            fprintf(file, "%s", " -90");
+            fclose(file);
+            pthread_mutex_unlock(&lock);
 
+            for(; blueX <= upperRightLimit; blueX=blueX+5){
+                usleep(blueSpeed);
+                printf("X: %d\tY: %d\n", blueX, blueY);
+                pthread_mutex_lock(&lock);
+                file = fopen("blue.txt", "w");
+                if(file == NULL){
+                    printf("Error while opening the status file\n");
+                }
+                fprintf(file, "%s", "Blue ");
+                fprintf(file, "%d", blueX);
+                fprintf(file, "%s", " ");
+                fprintf(file, "%d", blueY);
+                fprintf(file, "%s", " 0");
+                fclose(file);
+                pthread_mutex_unlock(&lock);
+            }
+            usleep(blueSpeed);
+            sendMessage("TURN DOWN");
+            printf("X: %d\tY: %d\n", blueX, blueY);
+            pthread_mutex_lock(&lock);
+            file = fopen("blue.txt", "w");
+            if(file == NULL){
+                printf("Error while opening the status file\n");
+            }
+            fprintf(file, "%s", "Blue ");
+            fprintf(file, "%d", blueX);
+            fprintf(file, "%s", " ");
+            fprintf(file, "%d", blueY);
+            fprintf(file, "%s", " -90");
+            fclose(file);
+            pthread_mutex_unlock(&lock);
+
+            for(; blueY <= lowerRightLimit; blueY=blueY+5){
+                usleep(blueSpeed);
+                printf("X: %d\tY: %d\n", blueX, blueY);
+
+                pthread_mutex_lock(&lock);
+                file = fopen("blue.txt", "w");
+                if(file == NULL){
+                    printf("Error while opening the status file\n");
+                }
+                fprintf(file, "%s", "Blue ");
+                fprintf(file, "%d", blueX);
+                fprintf(file, "%s", " ");
+                fprintf(file, "%d", blueY);
+                fprintf(file, "%s", " 0");
+                fclose(file);
+                pthread_mutex_unlock(&lock);
+            }
+            usleep(blueSpeed);
+            sendMessage("TURN LEFT");
+            printf("X: %d\tY: %d\n", blueX, blueY);
+            pthread_mutex_lock(&lock);
+            file = fopen("blue.txt", "w");
+            if(file == NULL){
+                printf("Error while opening the status file\n");
+            }
+            fprintf(file, "%s", "Blue ");
+            fprintf(file, "%d", blueX);
+            fprintf(file, "%s", " ");
+            fprintf(file, "%d", blueY);
+            fprintf(file, "%s", " -90");
+            fclose(file);
+            pthread_mutex_unlock(&lock);
+
+            for(; blueX >= lowerLeftLimit; blueX=blueX-5){
+                usleep(blueSpeed);
+                printf("X: %d\tY: %d\n", blueX, blueY);
+                pthread_mutex_lock(&lock);
+                file = fopen("blue.txt", "w");
+                if(file == NULL){
+                    printf("Error while opening the status file\n");
+                }
+                fprintf(file, "%s", "Blue ");
+                fprintf(file, "%d", blueX);
+                fprintf(file, "%s", " ");
+                fprintf(file, "%d", blueY);
+                fprintf(file, "%s", " 0");
+                fclose(file);
+                pthread_mutex_unlock(&lock);
+            }
+
+            usleep(blueSpeed);
+            sendMessage("TURN UP");
+            printf("X: %d\tY: %d\n", blueX, blueY);
+            pthread_mutex_lock(&lock);
+            file = fopen("blue.txt", "w");
+            if(file == NULL){
+                printf("Error while opening the status file\n");
+            }
+            fprintf(file, "%s", "Blue ");
+            fprintf(file, "%d", blueX);
+            fprintf(file, "%s", " ");
+            fprintf(file, "%d", blueY);
+            fprintf(file, "%s", " -90");
+            fclose(file);
+            pthread_mutex_unlock(&lock);
+
+            for(; blueY >= raceGoalLimit; blueY=blueY-5){
+                usleep(blueSpeed);
+                printf("X: %d\tY: %d\n", blueX, blueY);
+
+                pthread_mutex_lock(&lock);
+                file = fopen("blue.txt", "w");
+                if(file == NULL){
+                    printf("Error while opening the status file\n");
+                }
+                fprintf(file, "%s", "Blue ");
+                fprintf(file, "%d", blueX);
+                fprintf(file, "%s", " ");
+                fprintf(file, "%d", blueY);
+                fprintf(file, "%s", " 0");
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
@@ -108,14 +241,12 @@ static void * blueThread(void *arg){
 
         break;
     }
-
     return (void *) strlen(s);
 }
 
 static void * redThread(void *arg){
     char *s = (char *) arg;
     printf("%s\n", s);
-
     int redX, redY;
     redX = 140;
     redY = 325;
@@ -129,7 +260,8 @@ static void * redThread(void *arg){
         FILE *file;
         for(int i = 0; i < numLaps; ++i){
             for(; redY >= upperLeftLimit; redY=redY-5){
-                usleep(100000);
+                usleep(redSpeed);
+                printf("X: %d\tY: %d\n", redX, redY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
@@ -144,9 +276,8 @@ static void * redThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
-
-            usleep(100000);
-
+            usleep(redSpeed);
+            printf("X: %d\tY: %d\n", redX, redY);
             pthread_mutex_lock(&lock);
             file = fopen("red.txt", "w");
             if(file == NULL){
@@ -161,8 +292,8 @@ static void * redThread(void *arg){
             pthread_mutex_unlock(&lock);
 
             for(; redX <= upperRightLimit; redX=redX+5){
-                usleep(100000);
-
+                usleep(redSpeed);
+                printf("X: %d\tY: %d\n", redX, redY);
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
                 if(file == NULL){
@@ -176,9 +307,8 @@ static void * redThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
-
-            usleep(100000);
-
+            usleep(redSpeed);
+            printf("X: %d\tY: %d\n", redX, redY);
             pthread_mutex_lock(&lock);
             file = fopen("red.txt", "w");
             if(file == NULL){
@@ -193,7 +323,8 @@ static void * redThread(void *arg){
             pthread_mutex_unlock(&lock);
 
             for(; redY <= lowerRightLimit; redY=redY+5){
-                usleep(100000);
+                usleep(redSpeed);
+                printf("X: %d\tY: %d\n", redX, redY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
@@ -208,9 +339,8 @@ static void * redThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
-
-            usleep(100000);
-
+            usleep(redSpeed);
+            printf("X: %d\tY: %d\n", redX, redY);
             pthread_mutex_lock(&lock);
             file = fopen("red.txt", "w");
             if(file == NULL){
@@ -225,8 +355,8 @@ static void * redThread(void *arg){
             pthread_mutex_unlock(&lock);
 
             for(; redX >= lowerLeftLimit; redX=redX-5){
-                usleep(100000);
-
+                usleep(redSpeed);
+                printf("X: %d\tY: %d\n", redX, redY);
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
                 if(file == NULL){
@@ -241,8 +371,8 @@ static void * redThread(void *arg){
                 pthread_mutex_unlock(&lock);
             }
 
-            usleep(100000);
-
+            usleep(redSpeed);
+            printf("X: %d\tY: %d\n", redX, redY);
             pthread_mutex_lock(&lock);
             file = fopen("red.txt", "w");
             if(file == NULL){
@@ -257,7 +387,8 @@ static void * redThread(void *arg){
             pthread_mutex_unlock(&lock);
 
             for(; redY >= raceGoalLimit; redY=redY-5){
-                usleep(100000);
+                usleep(redSpeed);
+                printf("X: %d\tY: %d\n", redX, redY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
@@ -271,19 +402,6 @@ static void * redThread(void *arg){
                 fprintf(file, "%s", " 0");
                 fclose(file);
                 pthread_mutex_unlock(&lock);
-            }
-            switch (i){
-                case 0:
-                    sendMessage("LAP 1: RED");
-                    break;
-                case 1:
-                    sendMessage("LAP 2: RED");
-                    break;
-                case 2:
-                    sendMessage("LAP 3: RED");
-                    break;
-                default:
-                    sendMessage("FINISHER RED");
             }
         }
 
@@ -308,7 +426,8 @@ static void * greenThread(void *arg){
         FILE *file;
         for(int i = 0; i < numLaps; ++i){
             for(; greenY >= upperLeftLimit; greenY=greenY-5){
-                usleep(100000);
+                usleep(greenSpeed);
+                printf("X: %d\tY: %d\n", greenX, greenY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
@@ -323,8 +442,9 @@ static void * greenThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
-            usleep(100000);
 
+            usleep(greenSpeed);
+            printf("X: %d\tY: %d\n", greenX, greenY);
             pthread_mutex_lock(&lock);
             file = fopen("green.txt", "w");
             if(file == NULL){
@@ -339,8 +459,8 @@ static void * greenThread(void *arg){
             pthread_mutex_unlock(&lock);
 
             for(; greenX <= upperRightLimit; greenX=greenX+5){
-                usleep(100000);
-
+                usleep(greenSpeed);
+                printf("X: %d\tY: %d\n", greenX, greenY);
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
                 if(file == NULL){
@@ -355,7 +475,8 @@ static void * greenThread(void *arg){
                 pthread_mutex_unlock(&lock);
             }
 
-            usleep(100000);
+            usleep(greenSpeed);
+            printf("X: %d\tY: %d\n", greenX, greenY);
             pthread_mutex_lock(&lock);
             file = fopen("green.txt", "w");
             if(file == NULL){
@@ -370,7 +491,8 @@ static void * greenThread(void *arg){
             pthread_mutex_unlock(&lock);
 
             for(; greenY <= lowerRightLimit; greenY=greenY+5){
-                usleep(100000);
+                usleep(greenSpeed);
+                printf("X: %d\tY: %d\n", greenX, greenY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
@@ -386,7 +508,8 @@ static void * greenThread(void *arg){
                 pthread_mutex_unlock(&lock);
             }
 
-            usleep(100000);
+            usleep(greenSpeed);
+            printf("X: %d\tY: %d\n", greenX, greenY);
             pthread_mutex_lock(&lock);
             file = fopen("green.txt", "w");
             if(file == NULL){
@@ -401,8 +524,8 @@ static void * greenThread(void *arg){
             pthread_mutex_unlock(&lock);
 
             for(; greenX >= lowerLeftLimit; greenX=greenX-5){
-                usleep(100000);
-
+                usleep(greenSpeed);
+                printf("X: %d\tY: %d\n", greenX, greenY);
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
                 if(file == NULL){
@@ -417,8 +540,8 @@ static void * greenThread(void *arg){
                 pthread_mutex_unlock(&lock);
             }
 
-            usleep(100000);
-
+            usleep(greenSpeed);
+            printf("X: %d\tY: %d\n", greenX, greenY);
             pthread_mutex_lock(&lock);
             file = fopen("green.txt", "w");
             if(file == NULL){
@@ -433,7 +556,8 @@ static void * greenThread(void *arg){
             pthread_mutex_unlock(&lock);
 
             for(; greenY >= raceGoalLimit; greenY=greenY-5){
-                usleep(100000);
+                usleep(greenSpeed);
+                printf("X: %d\tY: %d\n", greenX, greenY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
@@ -447,20 +571,6 @@ static void * greenThread(void *arg){
                 fprintf(file, "%s", " 0");
                 fclose(file);
                 pthread_mutex_unlock(&lock);
-            }
-
-            switch (i){
-                case 0:
-                    sendMessage("LAP 1: GREEN");
-                    break;
-                case 1:
-                    sendMessage("LAP 2: GREEN");
-                    break;
-                case 2:
-                    sendMessage("LAP 3: GREEN");
-                    break;
-                default:
-                    sendMessage("FINISHER GREEN");
             }
         }
 
@@ -517,21 +627,44 @@ void getLaps(){
 }
 
 int main() {
+    int initFile;
+    char initialRacers[1], initialLaps[1];
     printf("Welcome to Grand Prix!\n");
     getRacers();
     getLaps();
 
-    // TODO: Create a Thread for each numRacers
+    initServer();
 
     printf("Racers: %d\nLaps: %d\n", numRacers, numLaps);
 
+    //Init file for python
+    initFile = open("initFile.txt", O_WRONLY);
+    if (initFile == -1){
+        printf("Error creating file");
+    }
+    sprintf(initialRacers, "%d", numRacers);
+    sprintf(initialLaps, "%d", numLaps);
+    write(initFile, initialRacers, sizeof(initialRacers));
+    write(initFile, initialLaps, sizeof(initialLaps));
+    close(initFile);
+
+    srand(time(0));
+    blueSpeed = (rand() % (UPPERLIMIT - LOWERLIMIT + 1)) + LOWERLIMIT;
+    printf("Blue car's speed: %d\n", blueSpeed);
     pthread_t blueCarThread;
+    if (numRacers == 2 || numRacers == 3){
+        greenSpeed = (rand() % (UPPERLIMIT - LOWERLIMIT + 1)) + LOWERLIMIT;
+        printf("Green car's speed: %d\n", greenSpeed);
+    }
+    if (numRacers == 3){
+        redSpeed = (rand() % (UPPERLIMIT - LOWERLIMIT + 1)) + LOWERLIMIT;
+        printf("Red car's speed: %d\n", redSpeed);
+    }
+
     pthread_t redCarThread;
     pthread_t greenCarThread;
     void *res;
     int s;
-
-    initServer();
 
     system("python graphics.py &");
 
@@ -541,14 +674,18 @@ int main() {
         printf("Error while creating thread\n");
     }
 
-    s = pthread_create(&redCarThread, NULL, redThread, "Running Red Car Thread");
-    if (s != 0){
-        printf("Error while creating thread\n");
+    if(numRacers == 3){
+        s = pthread_create(&redCarThread, NULL, redThread, "Running Red Car Thread");
+        if (s != 0){
+            printf("Error while creating thread\n");
+        }
     }
 
-    s = pthread_create(&greenCarThread, NULL, greenThread, "Running Green Car Thread");
-    if (s != 0){
-        printf("Error while creating thread\n");
+    if(numRacers == 2 || numRacers == 3){
+        s = pthread_create(&greenCarThread, NULL, greenThread, "Running Green Car Thread");
+        if (s != 0){
+            printf("Error while creating thread\n");
+        }
     }
     /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -557,14 +694,18 @@ int main() {
         printf("Error while joining thread\n");
     }
 
-    s = pthread_join(redCarThread, &res);
-    if (s != 0){
-        printf("Error while joining thread\n");
+    if(numRacers == 3){
+        s = pthread_join(redCarThread, &res);
+        if (s != 0){
+            printf("Error while joining thread\n");
+        }
     }
 
-    s = pthread_join(greenCarThread, &res);
-    if (s != 0){
-        printf("Error while joining thread\n");
+    if(numRacers == 2 || numRacers == 3){
+        s = pthread_join(greenCarThread, &res);
+        if (s != 0){
+            printf("Error while joining thread\n");
+        }
     }
 
     printf("Threads Joined\n");
