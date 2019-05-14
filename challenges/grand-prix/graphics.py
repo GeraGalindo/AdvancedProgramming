@@ -24,12 +24,15 @@ screen.blit(backgroundImage, (0,0))
 
 frame = pygame.time.Clock()
 
-redX = 60
-redY = 325
+blueX = 60
+blueY = 325
 greenX = 100
 greenY = 325
-blueX = 140
-blueY = 325
+redX = 140
+redY = 325
+blueRotation = 0
+redRotation = 0
+greenRotation = 0
 
 running = True
 
@@ -38,38 +41,51 @@ while running == True:
         if event.type == pygame.QUIT:
             running = False
 
-    if os.path.exists("status.txt"):
-        f = open("status.txt", "r")
+    if os.path.exists("blue.txt"):
+        f = open("blue.txt", "r")
         if f.mode == "r":
             contents = f.read().split()  ## FILE FORMAT: Car X Y Rotation
             if contents[0] == "Blue":   # Check if Blue car has written to the status file
                 print("El Azul")
-                carX = int(contents[1], 10)
-                carY = int(contents[2], 10)
-                rotation = int(contents[3], 10)
-                blueCarImage = pygame.transform.rotate(blueCarImage, rotation)
-                screen.blit(backgroundImage, (0,0))
-                screen.blit(blueCarImage, (carX,carY))
-                print(carX, carY)
-                print rotation
-                os.remove("status.txt")
-                continue
+                blueX = int(contents[1], 10)
+                blueY = int(contents[2], 10)
+                blueRotation = int(contents[3], 10)
+                os.remove("blue.txt")
 
-            if contents[0] == "Red":    # Check if Red car has written to the status file
+    if os.path.exists("red.txt"):
+        f = open("red.txt", "r")
+        if f.mode == "r":
+            contents = f.read().split()  ## FILE FORMAT: Car X Y Rotation
+            if contents[0] == "Red":   # Check if Blue car has written to the status file
                 print("El Rojo")
-            if contents[0] == "Green":   # Check if Green car has written to the status file
+                redX = int(contents[1], 10)
+                redY = int(contents[2], 10)
+                redRotation = int(contents[3], 10)
+                os.remove("red.txt")
+
+    if os.path.exists("green.txt"):
+        f = open("green.txt", "r")
+        if f.mode == "r":
+            contents = f.read().split()  ## FILE FORMAT: Car X Y Rotation
+            if contents[0] == "Green":   # Check if Blue car has written to the status file
                 print("El Verde")
+                greenX = int(contents[1], 10)
+                greenY = int(contents[2], 10)
+                greenRotation = int(contents[3], 10)
+                os.remove("green.txt")
 
-
-
-    # screen.blit(backgroundImage, (0,0))
-    # screen.blit(redCarImage, (redX,redY))
-    # screen.blit(greenCarImage, (greenX,greenY))
-
-    # print "#####  Coordinates  ######"
-    # print "Red: ", redX, redY
-    # print "Green: ", greenX, greenY
-    # print "Blue: ", blueX, blueY
-    # print "##########################"
+    blueCarImage = pygame.transform.rotate(blueCarImage, blueRotation)
+    redCarImage = pygame.transform.rotate(redCarImage, redRotation)
+    greenCarImage = pygame.transform.rotate(greenCarImage, greenRotation)
+    screen.blit(backgroundImage, (0,0))
+    print(redX, redY)
+    print redRotation
+    print(blueX, blueY)
+    print blueRotation
+    print(greenX, greenY)
+    print greenRotation
+    screen.blit(blueCarImage, (blueX, blueY))
+    screen.blit(redCarImage, (redX, redY))
+    screen.blit(greenCarImage, (greenX, greenY))
     pygame.display.flip()
     frame.tick(30)
