@@ -65,7 +65,6 @@ while running == True:
         if f.mode == "r":
             contents = f.read().split()  ## FILE FORMAT: Car X Y Rotation
             if contents[0] == "Blue":   # Check if Blue car has written to the status file
-                print("El Azul")
                 blueX = int(contents[1], 10)
                 blueY = int(contents[2], 10)
                 blueRotation = int(contents[3], 10)
@@ -76,7 +75,6 @@ while running == True:
         if f.mode == "r":
             contents = f.read().split()  ## FILE FORMAT: Car X Y Rotation
             if contents[0] == "Red":   # Check if Blue car has written to the status file
-                print("El Rojo")
                 redX = int(contents[1], 10)
                 redY = int(contents[2], 10)
                 redRotation = int(contents[3], 10)
@@ -87,7 +85,6 @@ while running == True:
         if f.mode == "r":
             contents = f.read().split()  ## FILE FORMAT: Car X Y Rotation
             if contents[0] == "Green":   # Check if Blue car has written to the status file
-                print("El Verde")
                 greenX = int(contents[1], 10)
                 greenY = int(contents[2], 10)
                 greenRotation = int(contents[3], 10)
@@ -95,21 +92,18 @@ while running == True:
 
     screen.blit(backgroundImage, (0,0))
     blueCarImage = pygame.transform.rotate(blueCarImage, blueRotation)
-    print(blueX, blueY)
-    print blueRotation
+
     screen.blit(blueCarImage, (blueX, blueY))
     
     if int(init_values[0]) == 3:
         redCarImage = pygame.transform.rotate(redCarImage, redRotation)
-        print(redX, redY)
-        print redRotation
+
         screen.blit(redCarImage, (redX, redY))
     
     if int(init_values[0]) == 2 or int(init_values[0]) == 3:
         greenCarImage = pygame.transform.rotate(greenCarImage, greenRotation)
-        print(greenX, greenY)
-        print greenRotation
+
         screen.blit(greenCarImage, (greenX, greenY))
 
     pygame.display.flip()
-    frame.tick(30)
+    frame.tick(20)

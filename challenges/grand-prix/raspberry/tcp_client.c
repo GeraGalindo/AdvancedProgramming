@@ -39,7 +39,7 @@ static void * connectionThread(void *arg){
 	struct sockaddr_in serverAddress;
 	serverAddress.sin_family = AF_INET;
 	serverAddress.sin_port = htons(9009);
-	serverAddress.sin_addr.s_addr = inet_addr("192.168.1.72");
+	serverAddress.sin_addr.s_addr = INADDR_ANY;
 
 	// Connect and check for connection errors
 	int connectionStatus = connect(networkSocket, (struct sockaddr *) &serverAddress, sizeof(serverAddress));
