@@ -272,19 +272,19 @@ static void * redThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
-//            switch (i){
-//                case 0:
-//                    sendMessage("LAP 1: RED");
-//                    break;
-//                case 1:
-//                    sendMessage("LAP 2: RED");
-//                    break;
-//                case 2:
-//                    sendMessage("LAP 3: RED");
-//                    break;
-//                default:
-//                    sendMessage("FINISHER RED");
-//            }
+            switch (i){
+                case 0:
+                    sendMessage("LAP 1: RED");
+                    break;
+                case 1:
+                    sendMessage("LAP 2: RED");
+                    break;
+                case 2:
+                    sendMessage("LAP 3: RED");
+                    break;
+                default:
+                    sendMessage("FINISHER RED");
+            }
         }
 
         break;
@@ -449,19 +449,19 @@ static void * greenThread(void *arg){
                 pthread_mutex_unlock(&lock);
             }
 
-//            switch (i){
-//                case 0:
-//                    sendMessage("LAP 1: GREEN");
-//                    break;
-//                case 1:
-//                    sendMessage("LAP 2: GREEN");
-//                    break;
-//                case 2:
-//                    sendMessage("LAP 3: GREEN");
-//                    break;
-//                default:
-//                    sendMessage("FINISHER GREEN");
-//            }
+            switch (i){
+                case 0:
+                    sendMessage("LAP 1: GREEN");
+                    break;
+                case 1:
+                    sendMessage("LAP 2: GREEN");
+                    break;
+                case 2:
+                    sendMessage("LAP 3: GREEN");
+                    break;
+                default:
+                    sendMessage("FINISHER GREEN");
+            }
         }
 
         break;
@@ -531,7 +531,7 @@ int main() {
     void *res;
     int s;
 
-    //initServer();
+    initServer();
 
     system("python graphics.py &");
 
@@ -569,7 +569,7 @@ int main() {
 
     printf("Threads Joined\n");
 
-    //freeServer();
+    freeServer();
 
     return 0;
 }
