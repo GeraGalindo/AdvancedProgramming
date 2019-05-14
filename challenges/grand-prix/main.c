@@ -97,6 +97,60 @@ static void * blueThread(void *arg){
 
             }
         }
+        usleep(100000);
+
+        FILE *file;
+        file = fopen("status.txt", "w");
+        if(file == NULL){
+            printf("Error while opening the status file\n");
+            continue;
+        }
+        fprintf(file, "%s", "Blue ");
+        fprintf(file, "%d", 50);
+        fprintf(file, "%s", " ");
+        fprintf(file, "%d", 95);
+        fprintf(file, "%s", " -45");
+        fclose(file);
+        usleep(100000);
+
+        file = fopen("status.txt", "w");
+        if(file == NULL){
+            printf("Error while opening the status file\n");
+            continue;
+        }
+        fprintf(file, "%s", "Blue ");
+        fprintf(file, "%d", 50);
+        fprintf(file, "%s", " ");
+        fprintf(file, "%d", 85);
+        fprintf(file, "%s", " -45");
+        fclose(file);
+
+        usleep(100000);
+        file = fopen("status.txt", "w");
+        if(file == NULL){
+            printf("Error while opening the status file\n");
+            continue;
+        }
+        fprintf(file, "%s", "Blue ");
+        fprintf(file, "%d", 55);
+        fprintf(file, "%s", " ");
+        fprintf(file, "%d", 80);
+        fprintf(file, "%s", " 0");
+        fclose(file);
+
+        usleep(100000);
+        file = fopen("status.txt", "w");
+        if(file == NULL){
+            printf("Error while opening the status file\n");
+            continue;
+        }
+        fprintf(file, "%s", "Blue ");
+        fprintf(file, "%d", 60);
+        fprintf(file, "%s", " ");
+        fprintf(file, "%d", 75);
+        fprintf(file, "%s", " 0");
+        fclose(file);
+
         break;
     }
 
@@ -185,3 +239,4 @@ int main() {
 
     return 0;
 }
+
