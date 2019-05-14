@@ -9,12 +9,15 @@
 
 #include "coordinates.h"
 
-// Default message to be sent to clients
-char serverMessage[] = "Message X";
 int numRacers = 0;
 int numLaps = 0;
 
 pthread_mutex_t lock;
+
+// Server Variables
+int serverSocket;
+int clientSocket;
+char serverMessage[16];
 
 void clearMessage(){
     for(int i = 0; i < 10; ++i){
@@ -22,14 +25,8 @@ void clearMessage(){
     }
 }
 
-static void * connectionThread(void *arg){
-    char *s = (char *) arg;
-    printf("%s\n", s);
-
-    char msgIdx = '0';
-
+void initServer(){
     // create a socket
-    int serverSocket;
     serverSocket = socket(AF_INET, SOCK_STREAM, 0); // Using default protocol (TCP)
 
     // define the server address
@@ -45,33 +42,25 @@ static void * connectionThread(void *arg){
     listen(serverSocket, 1);
 
     // Handle connections
-    int clientSocket = accept(serverSocket, NULL, NULL);
+    clientSocket = accept(serverSocket, NULL, NULL);
 
-    int cmd = getchar();
-    while(cmd != 'q'){
-        serverMessage[8] = msgIdx;
-        // Send Single Message
-        send(clientSocket, serverMessage, sizeof(serverMessage), 0);
-        msgIdx++;
-        char serverResponse[64];
-        recv(clientSocket, &serverResponse, sizeof(serverResponse), 0);
-        printf("From Raspberry: %s", serverResponse);
-        cmd = getchar();
-        if (cmd == 'q'){
-            clearMessage();
-            stpcpy(serverMessage, "Quit");
-            send(clientSocket, serverMessage, sizeof(serverMessage), 0);
-            printf("%s\n", serverMessage);
-            break;
-        }
-    }
+    printf("Server Socket Initialized\n");
 
-    printf("Closing Socket\n");
+}
 
+void freeServer(){
     // Close the socket
     close(serverSocket);
+}
 
-    return (void *) strlen(s);
+void sendMessage(char *msg){
+    clearMessage();
+    strcpy(serverMessage, msg);
+    send(clientSocket, serverMessage, sizeof(serverMessage), 0);
+
+    char serverResponse[64];
+    recv(clientSocket, &serverResponse, sizeof(serverResponse), 0);
+    printf("From Raspberry: %s\n", serverResponse);
 }
 
 static void * blueThread(void *arg){
@@ -80,10 +69,10 @@ static void * blueThread(void *arg){
 
     while(1){
         for(int i = 0; i < 1; ++i){
-            for (int j = 0; j < 212; ++j){
+            for (int j = 0; j < 500; ++j){
                 usleep(100000);
                 // TODO: Check if corresponding file exists; If (file exist) -> Wait ... else write coordinates
-                printf("X: %d\tY: %d\n", outer[j][i], outer[j][i+1]);
+                //printf("X: %d\tY: %d\n", outer[j][i], outer[j][i+1]);
                 pthread_mutex_lock(&lock);
                 FILE *file;
                 file = fopen("blue.txt", "w");
@@ -126,6 +115,7 @@ static void * blueThread(void *arg){
 static void * redThread(void *arg){
     char *s = (char *) arg;
     printf("%s\n", s);
+
     int redX, redY;
     redX = 140;
     redY = 325;
@@ -140,7 +130,6 @@ static void * redThread(void *arg){
         for(int i = 0; i < numLaps; ++i){
             for(; redY >= upperLeftLimit; redY=redY-5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", redX, redY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
@@ -155,8 +144,9 @@ static void * redThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
+
             usleep(100000);
-            printf("X: %d\tY: %d\n", redX, redY);
+
             pthread_mutex_lock(&lock);
             file = fopen("red.txt", "w");
             if(file == NULL){
@@ -172,7 +162,7 @@ static void * redThread(void *arg){
 
             for(; redX <= upperRightLimit; redX=redX+5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", redX, redY);
+
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
                 if(file == NULL){
@@ -186,8 +176,9 @@ static void * redThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
+
             usleep(100000);
-            printf("X: %d\tY: %d\n", redX, redY);
+
             pthread_mutex_lock(&lock);
             file = fopen("red.txt", "w");
             if(file == NULL){
@@ -203,7 +194,6 @@ static void * redThread(void *arg){
 
             for(; redY <= lowerRightLimit; redY=redY+5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", redX, redY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
@@ -218,8 +208,9 @@ static void * redThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
+
             usleep(100000);
-            printf("X: %d\tY: %d\n", redX, redY);
+
             pthread_mutex_lock(&lock);
             file = fopen("red.txt", "w");
             if(file == NULL){
@@ -235,7 +226,7 @@ static void * redThread(void *arg){
 
             for(; redX >= lowerLeftLimit; redX=redX-5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", redX, redY);
+
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
                 if(file == NULL){
@@ -251,7 +242,7 @@ static void * redThread(void *arg){
             }
 
             usleep(100000);
-            printf("X: %d\tY: %d\n", redX, redY);
+
             pthread_mutex_lock(&lock);
             file = fopen("red.txt", "w");
             if(file == NULL){
@@ -267,7 +258,6 @@ static void * redThread(void *arg){
 
             for(; redY >= raceGoalLimit; redY=redY-5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", redX, redY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("red.txt", "w");
@@ -282,6 +272,19 @@ static void * redThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
+//            switch (i){
+//                case 0:
+//                    sendMessage("LAP 1: RED");
+//                    break;
+//                case 1:
+//                    sendMessage("LAP 2: RED");
+//                    break;
+//                case 2:
+//                    sendMessage("LAP 3: RED");
+//                    break;
+//                default:
+//                    sendMessage("FINISHER RED");
+//            }
         }
 
         break;
@@ -306,7 +309,6 @@ static void * greenThread(void *arg){
         for(int i = 0; i < numLaps; ++i){
             for(; greenY >= upperLeftLimit; greenY=greenY-5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", greenX, greenY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
@@ -321,9 +323,8 @@ static void * greenThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
-
             usleep(100000);
-            printf("X: %d\tY: %d\n", greenX, greenY);
+
             pthread_mutex_lock(&lock);
             file = fopen("green.txt", "w");
             if(file == NULL){
@@ -339,7 +340,7 @@ static void * greenThread(void *arg){
 
             for(; greenX <= upperRightLimit; greenX=greenX+5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", greenX, greenY);
+
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
                 if(file == NULL){
@@ -355,7 +356,6 @@ static void * greenThread(void *arg){
             }
 
             usleep(100000);
-            printf("X: %d\tY: %d\n", greenX, greenY);
             pthread_mutex_lock(&lock);
             file = fopen("green.txt", "w");
             if(file == NULL){
@@ -371,7 +371,6 @@ static void * greenThread(void *arg){
 
             for(; greenY <= lowerRightLimit; greenY=greenY+5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", greenX, greenY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
@@ -388,7 +387,6 @@ static void * greenThread(void *arg){
             }
 
             usleep(100000);
-            printf("X: %d\tY: %d\n", greenX, greenY);
             pthread_mutex_lock(&lock);
             file = fopen("green.txt", "w");
             if(file == NULL){
@@ -404,7 +402,7 @@ static void * greenThread(void *arg){
 
             for(; greenX >= lowerLeftLimit; greenX=greenX-5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", greenX, greenY);
+
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
                 if(file == NULL){
@@ -420,7 +418,7 @@ static void * greenThread(void *arg){
             }
 
             usleep(100000);
-            printf("X: %d\tY: %d\n", greenX, greenY);
+
             pthread_mutex_lock(&lock);
             file = fopen("green.txt", "w");
             if(file == NULL){
@@ -436,7 +434,6 @@ static void * greenThread(void *arg){
 
             for(; greenY >= raceGoalLimit; greenY=greenY-5){
                 usleep(100000);
-                printf("X: %d\tY: %d\n", greenX, greenY);
 
                 pthread_mutex_lock(&lock);
                 file = fopen("green.txt", "w");
@@ -451,6 +448,20 @@ static void * greenThread(void *arg){
                 fclose(file);
                 pthread_mutex_unlock(&lock);
             }
+
+//            switch (i){
+//                case 0:
+//                    sendMessage("LAP 1: GREEN");
+//                    break;
+//                case 1:
+//                    sendMessage("LAP 2: GREEN");
+//                    break;
+//                case 2:
+//                    sendMessage("LAP 3: GREEN");
+//                    break;
+//                default:
+//                    sendMessage("FINISHER GREEN");
+//            }
         }
 
         break;
@@ -514,17 +525,13 @@ int main() {
 
     printf("Racers: %d\nLaps: %d\n", numRacers, numLaps);
 
-    pthread_t serverThread;
     pthread_t blueCarThread;
     pthread_t redCarThread;
     pthread_t greenCarThread;
     void *res;
     int s;
 
-    s = pthread_create(&serverThread, NULL, connectionThread, "Initializing TCP Server Thread");
-    if (s != 0){
-        printf("Error while creating thread\n");
-    }
+    //initServer();
 
     system("python graphics.py &");
 
@@ -560,12 +567,9 @@ int main() {
         printf("Error while joining thread\n");
     }
 
-    s = pthread_join(serverThread, &res);
-    if (s != 0){
-        printf("Error while joining thread\n");
-    }
+    printf("Threads Joined\n");
 
-    printf("Thread Joined\n");
+    //freeServer();
 
     return 0;
 }
